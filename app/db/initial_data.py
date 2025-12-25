@@ -39,10 +39,7 @@ async def load_books():
         author = Author(**author_data)
 
         # Book details
-        detail_data = next(
-            (d for d in details if d["book_id"] == book["id"]),
-            None
-        )
+        detail_data = next((d for d in details if d["book_id"] == book["id"]), None)
         if not detail_data:
             continue
 
