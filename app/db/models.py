@@ -19,6 +19,7 @@ class Author(BaseModel):
 
 class Book(BaseModel):
     """Book and Book Details"""
+    id: int
     title: str
     year_published: int
     is_deleted: bool = False

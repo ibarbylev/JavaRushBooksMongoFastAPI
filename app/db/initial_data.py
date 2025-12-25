@@ -1,21 +1,17 @@
 import json
 import asyncio
-from motor.motor_asyncio import AsyncIOMotorClient
+from motor.motor_asyncio import AsyncIOMotorDatabase
 
-from models import Book, GenreEnum, Author
-from local_settings import MONGODB_URL_ATLAS
+from app.db.models import Book, GenreEnum, Author
 
-DB_NAME = "books_db"
-BOOKS_JSON = "../../books.json"
+BOOKS_JSON = "books.json"
 
 
 def find_by_id(items, item_id):
     return next((item for item in items if item["id"] == item_id), None)
 
 
-async def load_books():
-    client = AsyncIOMotorClient(MONGODB_URL_ATLAS)
-    db = client[DB_NAME]
+async def load_books(db: AsyncIOMotorDatabase):
 
     with open(BOOKS_JSON, encoding="utf-8") as f:
         data = json.load(f)
@@ -53,6 +49,7 @@ async def load_books():
 
         # Pydantic validation
         book_model = Book(
+            id=book["id"],
             title=book["title"],
             year_published=book["year_published"],
             is_deleted=book.get("is_deleted", False),
