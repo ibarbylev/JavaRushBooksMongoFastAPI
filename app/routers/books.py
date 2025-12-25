@@ -21,7 +21,7 @@ async def list_books(db=Depends(get_db)):
 # Create book
 @router.post("/", response_model=Book)
 async def create_book(book: Book, db=Depends(get_db)):
-    existing = await db.books.find_one({"book_id": book.id})
+    existing = await db.books.find_one({"id": book.id})
     if existing:
         raise HTTPException(status_code=400, detail="Book with this ID already exists")
 
